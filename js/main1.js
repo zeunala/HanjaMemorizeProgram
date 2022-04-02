@@ -94,7 +94,7 @@ const StatusObj = {
 
 const HanjaObj = {
     _currentIdx: 1,
-    _hanjaImageIdx: [-1],
+    hanjaImageIdx: [-1],
     TOTALIDX: 12,
     hanjaMeaning: {
         "easy": ["", "노래 가", "기 기", "한가지 동", "겨울 동", "오를 등", "올 래", "늙을 로", "마을 리", "수풀 림",
@@ -114,14 +114,14 @@ const HanjaObj = {
     },
 
     initHanja: function() {
-        this._hanjaImageIdx = [-1].concat(SeedObj.getIdxArray(1));
+        this.hanjaImageIdx = [-1].concat(SeedObj.getIdxArray(1));
         this.showHanja();
     },
 
     // 현재 _currentIdx에 맞도록 화면 조정
     showHanja: function() {
-        document.getElementById("mainHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this._hanjaImageIdx[this._currentIdx].toString() + ".png";
-        document.getElementById("mainHanjaMeaning").innerText = this.hanjaMeaning[CookieObj.getCookie("difficulty")][this._hanjaImageIdx[this._currentIdx]];
+        document.getElementById("mainHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this.hanjaImageIdx[this._currentIdx].toString() + ".png";
+        document.getElementById("mainHanjaMeaning").innerText = this.hanjaMeaning[CookieObj.getCookie("difficulty")][this.hanjaImageIdx[this._currentIdx]];
         document.getElementById("hanjaIdx").innerText = this._currentIdx < 10 ? "0" + this._currentIdx.toString(): this._currentIdx.toString();
     },
 
@@ -162,12 +162,12 @@ const QuizObj = {
         if (otherHanjaIdx2 <= 0) otherHanjaIdx2 = otherHanjaIdx2 + HanjaObj.TOTALIDX; 
 
         // 정답 한자 이미지/선지 세팅
-        document.getElementById("quizHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this._quizHanjaIdx.toString() + ".png";
-        document.getElementById("choice" + this._answerChoice.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][this._quizHanjaIdx];
+        document.getElementById("quizHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + HanjaObj.hanjaImageIdx[this._quizHanjaIdx].toString() + ".png";
+        document.getElementById("choice" + this._answerChoice.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[this._quizHanjaIdx]];
     
         // 오답 선지 세팅
-        document.getElementById("choice" + otherChoice1.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][otherHanjaIdx1];
-        document.getElementById("choice" + otherChoice2.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][otherHanjaIdx2];
+        document.getElementById("choice" + otherChoice1.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[otherHanjaIdx1]];
+        document.getElementById("choice" + otherChoice2.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[otherHanjaIdx2]];
     },
 
     submitQuiz: function() {
