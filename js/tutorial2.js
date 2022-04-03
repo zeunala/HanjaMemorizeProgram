@@ -2,11 +2,11 @@
 
 const HanjaObj = {
     _currentIdx: 1,
-    _hanjaMeaning: ["","불 화", "물 수", "나무 목", "쇠 금", "흙 토"],
+    _hanjaMeaning: ["", "불 화", "물 수", "나무 목", "쇠 금", "흙 토"],
     TOTALIDX: 5,
 
     // 현재 _currentIdx에 맞도록 화면 조정
-    showHanja: function() {
+    showHanja: function () {
         document.getElementById("mainHanjaImage").src = "./img/" + "tutorial-" + this._currentIdx.toString() + ".png";
         document.getElementById("mainHanjaMeaning").innerText = this._hanjaMeaning[this._currentIdx];
         document.getElementById("hanjaIdx").innerText = this._currentIdx.toString();
@@ -24,7 +24,7 @@ const HanjaObj = {
         }
     },
 
-    prevHanja: function() {
+    prevHanja: function () {
         if (this._currentIdx - 1 <= 0) {
             return;
         } else {
@@ -33,7 +33,7 @@ const HanjaObj = {
         }
     },
 
-    nextHanja: function() {
+    nextHanja: function () {
         if (this._currentIdx + 1 > this.TOTALIDX) {
             return;
         } else {
@@ -42,7 +42,7 @@ const HanjaObj = {
         }
     },
 
-    initHanja: function() {
+    initHanja: function () {
         for (let i = 1; i <= this.TOTALIDX; i++) {
             var img = new Image();
             img.src = "./img/tutorial-" + i.toString() + ".png";
@@ -52,7 +52,7 @@ const HanjaObj = {
 }
 
 const EventObj = {
-    _mouseWheelEvent: function(e) {
+    _mouseWheelEvent: function (e) {
         var delta = 0;
 
         /* For IE */
@@ -66,7 +66,7 @@ const EventObj = {
         else if (delta < 0) HanjaObj.nextHanja();
     },
 
-    setEventListeners: function() {
+    setEventListeners: function () {
         document.querySelector(".bi-arrow-left-square").addEventListener("click", () => {
             HanjaObj.prevHanja();
         });
@@ -75,7 +75,7 @@ const EventObj = {
         });
 
         window.addEventListener("keydown", (e) => {
-            switch(e.key) {
+            switch (e.key) {
                 case "ArrowUp":
                 case "ArrowLeft":
                     HanjaObj.prevHanja();
@@ -96,10 +96,10 @@ const EventObj = {
 }
 
 function initConfig() {
-	EventObj.setEventListeners();
+    EventObj.setEventListeners();
     HanjaObj.initHanja();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initConfig();
+    initConfig();
 });

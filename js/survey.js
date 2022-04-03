@@ -1,8 +1,8 @@
 const SendObj = {
     _userId: 0,
 
-    sendStatus: function() {
-        if (this._userId == 0) this._userId = Math.floor(Math.random() * (10**8));
+    sendStatus: function () {
+        if (this._userId == 0) this._userId = Math.floor(Math.random() * (10 ** 8));
 
         let templateParams = {
             userId: this._userId,
@@ -37,8 +37,8 @@ const SendObj = {
         }
     },
 
-    sendAllData: function() {
-        if (this._userId == 0) this._userId = Math.floor(Math.random() * (10**8));
+    sendAllData: function () {
+        if (this._userId == 0) this._userId = Math.floor(Math.random() * (10 ** 8));
 
         let templateParams = {
             userId: this._userId,
@@ -77,14 +77,14 @@ const SendObj = {
             CookieObj.setCookie("email2", 1);
             emailjs.send("service_fynr379", "template_rg5h9gx", templateParams);
         }
-        setTimeout(function() { // 이메일 전송 후 result 화면으로 이동하도록 대기시간을 줌
-            location.href='./result.html';
-        },500);
+        setTimeout(function () { // 이메일 전송 후 result 화면으로 이동하도록 대기시간을 줌
+            location.href = './result.html';
+        }, 500);
     }
 }
 
 const EventObj = {
-    setEventListeners: function() {
+    setEventListeners: function () {
         document.getElementById("surveySubmit").addEventListener("click", () => {
             SendObj.sendAllData();
         });
@@ -97,5 +97,5 @@ function initConfig() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initConfig();
+    initConfig();
 });

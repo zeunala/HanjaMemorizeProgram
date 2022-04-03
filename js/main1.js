@@ -4,37 +4,37 @@ const SeedObj = { // 36개의 한자중 중복되지 않게 12개씩 뽑아내�
     _seed3: 0,
     _TOTALHANJA: 36,
 
-    initSeed: function() {
+    initSeed: function () {
         this.getSeedToCookie();
         if (this._seed1 == null) {
-            let arr = Array(this._TOTALHANJA).fill().map((v,i)=> i+1); // 1부터 36까지의 배열
-            
+            let arr = Array(this._TOTALHANJA).fill().map((v, i) => i + 1); // 1부터 36까지의 배열
+
             for (let i = 0; i < arr.length; i++) {
                 let j = Math.floor(Math.random() * (i + 1));
                 [arr[i], arr[j]] = [arr[j], arr[i]];
             }
 
 
-            this._seed1 = this.arrToSeed(arr.slice(0, this._TOTALHANJA/3));
-            this._seed2 = this.arrToSeed(arr.slice(this._TOTALHANJA/3, this._TOTALHANJA/3*2));
-            this._seed3 = this.arrToSeed(arr.slice(this._TOTALHANJA/3*2, this._TOTALHANJA));
-            
+            this._seed1 = this.arrToSeed(arr.slice(0, this._TOTALHANJA / 3));
+            this._seed2 = this.arrToSeed(arr.slice(this._TOTALHANJA / 3, this._TOTALHANJA / 3 * 2));
+            this._seed3 = this.arrToSeed(arr.slice(this._TOTALHANJA / 3 * 2, this._TOTALHANJA));
+
             this.setSeedToCookie();
         }
     },
 
-    seedToArr: function(seedValue) {
+    seedToArr: function (seedValue) {
         let arr = []
         for (let i = 1; i <= this._TOTALHANJA; i++) {
             if (seedValue % 2 == 1) {
                 arr.push(i);
             }
-            seedValue = parseInt(seedValue/2);
+            seedValue = parseInt(seedValue / 2);
         }
         return arr;
     },
 
-    arrToSeed: function(arrValue) {
+    arrToSeed: function (arrValue) {
         let total = 0;
         for (let i = 0; i < arrValue.length; i++) {
             total += 2 ** (arrValue[i] - 1);
@@ -42,19 +42,19 @@ const SeedObj = { // 36개의 한자중 중복되지 않게 12개씩 뽑아내�
         return total;
     },
 
-    setSeedToCookie: function() {
+    setSeedToCookie: function () {
         CookieObj.setCookie("seed1", this._seed1);
         CookieObj.setCookie("seed2", this._seed2);
         CookieObj.setCookie("seed3", this._seed3);
     },
-    
-    getSeedToCookie: function() {
+
+    getSeedToCookie: function () {
         this._seed1 = CookieObj.getCookie("seed1");
         this._seed2 = CookieObj.getCookie("seed2");
         this._seed3 = CookieObj.getCookie("seed3");
     },
 
-    getIdxArray: function(seedNum) {
+    getIdxArray: function (seedNum) {
         if (seedNum == 1) {
             return this.seedToArr(this._seed1)
         } else if (seedNum == 2) {
@@ -72,23 +72,23 @@ const StatusObj = {
     startedTime: 0,
     totalTime: 0,
 
-    mouseClick: function() {
+    mouseClick: function () {
         this._mouseClicked += 1;
     },
-    keyBoardClick: function() {
+    keyBoardClick: function () {
         this._keyBoardClicked += 1;
     },
-    mouseWheelClick: function() {
+    mouseWheelClick: function () {
         this._mouseWheelClicked += 1;
     },
 
-    initStatus: function() {
+    initStatus: function () {
         this.startedTime = new Date().getTime();
     },
-    sendStatus: function() {
+    sendStatus: function () {
         this.totalTime = Math.floor((new Date().getTime() - this.startedTime) / 1000);
-        
-        CookieObj.setCookie("main1", this.totalTime*(10**12)+this._mouseClicked*(10**8)+this._keyBoardClicked*(10**4)+this._mouseWheelClicked);
+
+        CookieObj.setCookie("main1", this.totalTime * (10 ** 12) + this._mouseClicked * (10 ** 8) + this._keyBoardClicked * (10 ** 4) + this._mouseWheelClicked);
     }
 }
 
@@ -99,7 +99,7 @@ const HanjaObj = {
     hanjaMeaning: {
         "easy": ["", "노래 가", "기 기", "한가지 동", "겨울 동", "오를 등", "올 래", "늙을 로", "마을 리", "수풀 림",
             "낯 면", "목숨 명", "글월 문", "물을 문", "일백 백", "지아비 부", "빛 색", "바 소", "말씀 어", "있을 유",
-            "기를 육", "글자 자", "할아비 조", "살 주", "주인주", "무거울 중", "땅 지", "풀 초", "가을 추", "봄 춘",
+            "기를 육", "글자 자", "할아비 조", "살 주", "주인 주", "무거울 중", "땅 지", "풀 초", "가을 추", "봄 춘",
             "여름 하", "꽃 화", "쉴 휴", "집 가", "길 도", "일 사", "번개 전"
         ],
         "normal": ["", "값 가", "맺을 결", "넓을 광", "예 구", "생각 념", "능할 능", "홀로 독", "흐를 류", "받들 봉",
@@ -113,27 +113,27 @@ const HanjaObj = {
             "둔할 둔", "민첩할 민", "배반할 반", "뛸 약", "화폐 폐", "돌아볼 고", "입술 순", "민망할 민", "줄 사"],
     },
 
-    _preloadHanja: function() {
+    _preloadHanja: function () {
         for (let i = 1; i <= this.TOTALIDX; i++) {
             var img = new Image();
             img.src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this.hanjaImageIdx[i].toString() + ".png";
         }
     },
 
-    initHanja: function() {
+    initHanja: function () {
         this.hanjaImageIdx = [-1].concat(SeedObj.getIdxArray(1));
         this._preloadHanja();
         this.showHanja();
     },
 
     // 현재 _currentIdx에 맞도록 화면 조정
-    showHanja: function() {
+    showHanja: function () {
         document.getElementById("mainHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this.hanjaImageIdx[this._currentIdx].toString() + ".png";
         document.getElementById("mainHanjaMeaning").innerText = this.hanjaMeaning[CookieObj.getCookie("difficulty")][this.hanjaImageIdx[this._currentIdx]];
-        document.getElementById("hanjaIdx").innerText = this._currentIdx < 10 ? "0" + this._currentIdx.toString(): this._currentIdx.toString();
+        document.getElementById("hanjaIdx").innerText = this._currentIdx < 10 ? "0" + this._currentIdx.toString() : this._currentIdx.toString();
     },
 
-    prevHanja: function() {
+    prevHanja: function () {
         if (this._currentIdx - 1 <= 0) {
             return;
         } else {
@@ -142,7 +142,7 @@ const HanjaObj = {
         }
     },
 
-    nextHanja: function() {
+    nextHanja: function () {
         if (this._currentIdx + 1 > this.TOTALIDX) {
             return;
         } else {
@@ -157,7 +157,7 @@ const QuizObj = {
     _quizHanjaIdx: 0, // 문제로 출제되는 한자 번호
     _answerChoice: 0, // 정답선지
 
-    initQuiz: function() {
+    initQuiz: function () {
         this._quizHanjaIdx = Math.floor(Math.random() * HanjaObj.TOTALIDX) + 1;
         this._answerChoice = Math.floor(Math.random() * 3) + 1;
 
@@ -167,23 +167,23 @@ const QuizObj = {
         otherHanjaIdx1 = this._quizHanjaIdx + (Math.floor(Math.random() * 5) + 1);
         if (otherHanjaIdx1 > HanjaObj.TOTALIDX) otherHanjaIdx1 = otherHanjaIdx1 - HanjaObj.TOTALIDX + 1;
         otherHanjaIdx2 = this._quizHanjaIdx - (Math.floor(Math.random() * 5) + 1);
-        if (otherHanjaIdx2 <= 0) otherHanjaIdx2 = otherHanjaIdx2 + HanjaObj.TOTALIDX; 
+        if (otherHanjaIdx2 <= 0) otherHanjaIdx2 = otherHanjaIdx2 + HanjaObj.TOTALIDX;
 
         // 정답 한자 이미지/선지 세팅
         document.getElementById("quizHanjaImage").src = "./img/" + CookieObj.getCookie("difficulty") + "-" + HanjaObj.hanjaImageIdx[this._quizHanjaIdx].toString() + ".png";
         document.getElementById("choice" + this._answerChoice.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[this._quizHanjaIdx]];
-    
+
         // 오답 선지 세팅
         document.getElementById("choice" + otherChoice1.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[otherHanjaIdx1]];
         document.getElementById("choice" + otherChoice2.toString()).innerText = HanjaObj.hanjaMeaning[CookieObj.getCookie("difficulty")][HanjaObj.hanjaImageIdx[otherHanjaIdx2]];
     },
 
-    submitQuiz: function() {
+    submitQuiz: function () {
         if (document.getElementById("guess" + this._answerChoice.toString()).checked) {
             // 정답시
             document.querySelector(".alert").classList.add("visually-hidden");
             StatusObj.sendStatus();
-            location.href='./tutorial2.html';
+            location.href = './tutorial2.html';
         } else {
             // 오답시
             document.querySelector(".alert").classList.remove("visually-hidden");
@@ -192,7 +192,7 @@ const QuizObj = {
 }
 
 const EventObj = {
-    _mouseWheelEvent: function(e) {
+    _mouseWheelEvent: function (e) {
         var delta = 0;
 
         /* For IE */
@@ -208,7 +208,7 @@ const EventObj = {
         StatusObj.mouseWheelClick();
     },
 
-    setEventListeners: function() {
+    setEventListeners: function () {
         document.querySelector(".bi-arrow-left-square").addEventListener("click", () => {
             HanjaObj.prevHanja();
             StatusObj.mouseClick();
@@ -226,7 +226,7 @@ const EventObj = {
         });
 
         window.addEventListener("keydown", (e) => {
-            switch(e.key) {
+            switch (e.key) {
                 case "ArrowUp":
                 case "ArrowLeft":
                     HanjaObj.prevHanja();
@@ -249,11 +249,11 @@ const EventObj = {
 
 function initConfig() {
     SeedObj.initSeed();
-	EventObj.setEventListeners();
+    EventObj.setEventListeners();
     HanjaObj.initHanja();
     StatusObj.initStatus();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initConfig();
+    initConfig();
 });

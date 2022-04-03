@@ -1,7 +1,7 @@
 const EventObj = {
     _hanjaOff: true,
 
-    _showAllHanja: function() {
+    _showAllHanja: function () {
         if (this._hanjaOff) {
             document.querySelectorAll(".card").forEach((e) => {
                 e.querySelector(".card-body").classList.remove("text-light");
@@ -15,7 +15,7 @@ const EventObj = {
         this._hanjaOff = !this._hanjaOff;
     },
 
-    setEventListeners: function() {
+    setEventListeners: function () {
         document.querySelectorAll(".card").forEach((e) => {
             e.addEventListener("click", () => {
                 e.querySelector(".card-body").classList.toggle("text-light");
@@ -41,10 +41,10 @@ const EventObj = {
 }
 
 function initConfig() {
-	EventObj.setEventListeners();
-    
+    EventObj.setEventListeners();
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initConfig();
+    initConfig();
 });
