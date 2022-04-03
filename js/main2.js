@@ -113,8 +113,16 @@ const HanjaObj = {
             "둔할 둔", "민첩할 민", "배반할 반", "뛸 약", "화폐 폐", "돌아볼 고", "입술 순", "민망할 민", "줄 사"],
     },
 
+    _preloadHanja: function() {
+        for (let i = 1; i <= this.TOTALIDX; i++) {
+            var img = new Image();
+            img.src = "./img/" + CookieObj.getCookie("difficulty") + "-" + this.hanjaImageIdx[i].toString() + ".png";
+        }
+    },
+
     initHanja: function() {
         this.hanjaImageIdx = [-1].concat(SeedObj.getIdxArray(2));
+        this._preloadHanja();
         this.showHanja();
     },
 

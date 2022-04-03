@@ -42,6 +42,13 @@ const HanjaObj = {
         }
     },
 
+    initHanja: function() {
+        for (let i = 1; i <= this.TOTALIDX; i++) {
+            var img = new Image();
+            img.src = "./img/tutorial-" + i.toString() + ".png";
+        }
+        this.showHanja();
+    }
 }
 
 const EventObj = {
@@ -90,7 +97,7 @@ const EventObj = {
 
 function initConfig() {
 	EventObj.setEventListeners();
-    HanjaObj.showHanja();
+    HanjaObj.initHanja();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
