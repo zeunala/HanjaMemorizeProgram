@@ -19,7 +19,7 @@
                 <p class="lead mb-4">본 어플리케이션은 HCI 수업의 프로젝트를 위해 제작된 프로그램입니다.</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <button type="button" class="btn btn-primary btn-lg px-4"
-                        onclick="CookieObj.deleteAllCookies(); location.href='./config.html'">계속하기</button>
+                        onclick="CookieObj.deleteAllCookies(); CookieObj.setCookie('start', new Date().toString()); location.href='./config.html'">계속하기</button>
                 </div>
             </div>
         </div>

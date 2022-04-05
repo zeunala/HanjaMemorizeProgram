@@ -66,7 +66,10 @@ const SendObj = {
             rate1: document.getElementById("rate1").value,
             rate2: document.getElementById("rate2").value,
             rate3: document.getElementById("rate3").value,
-            review: document.getElementById("review").value
+            review: document.getElementById("review").value,
+
+            userAgent: navigator.userAgent,
+            start: CookieObj.getCookie("start")
         }
 
         if (CookieObj.getCookie("email2")) {
